@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mayad Movies</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#101014;color:white;font-family:Arial,sans-serif}
+header{padding:20px 15px;background:#1b1b25}
+header h1{color:#ffcc36;margin:0 0 15px}
+input{width:100%;padding:13px;border-radius:9px;border:0;font-size:16px}
+nav{display:flex;gap:9px;overflow:auto;padding:14px}
+nav button{white-space:nowrap;background:#292936;color:white;border:0;border-radius:20px;padding:10px 16px}
+h2{padding:0 15px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding:15px}
+.movie{background:#20202a;border-radius:12px;overflow:hidden}
+.movie img{width:100%;aspect-ratio:2/3;object-fit:cover;display:block;background:#333}
+.info{padding:10px}
+.info h3{font-size:16px;margin:0 0 7px}
+.info p{color:#c4c4cf;font-size:13px}
+.info a{display:block;text-align:center;padding:10px;background:#e6b82f;color:#111;text-decoration:none;border-radius:7px;font-weight:bold}
+footer{text-align:center;padding:24px;color:#aaa}
+</style>
+</head>
+<body>
+<header>
+<h1>🎬 Mayad Movies</h1>
+<input id="search" placeholder="মুভি খুঁজুন..." oninput="filterMovies()">
+</header>
+
+<nav>
+<button onclick="category('all')">সব</button>
+<button onclick="category('Action')">Action</button>
+<button onclick="category('Comedy')">Comedy</button>
+<button onclick="category('Drama')">Drama</button>
+</nav>
+
+<h2>🔥 জনপ্রিয় মুভি</h2>
+<div class="grid" id="movies"></div>
+<footer>Mayad Movies © 2026</footer>
+
+<script>
+const list=[
+ {title:"Big Buck Bunny",genre:"Comedy",year:"2008",
+  poster:"https://peach.blender.org/wp-content/uploads/title_anouncement.jpg",
+  trailer:"https://www.youtube.com/results?search_query=Big+Buck+Bunny+official"},
+ {title:"Sintel",genre:"Drama",year:"2010",
+  poster:"https://durian.blender.org/wp-content/uploads/2010/05/sintel_poster.jpg",
+  trailer:"https://www.youtube.com/results?search_query=Sintel+official+film"},
+ {title:"Tears of Steel",genre:"Action",year:"2012",
+  poster:"https://mango.blender.org/wp-content/uploads/2013/05/01_thom_celia_bridge.jpg",
+  trailer:"https://www.youtube.com/results?search_query=Tears+of+Steel+official"},
+ {title:"Cosmos Laundromat",genre:"Comedy",year:"2015",
+  poster:"https://orange.blender.org/wp-content/themes/orange/images/media/gallery/s1_proog.jpg",
+  trailer:"https://www.youtube.com/results?search_query=Cosmos+Laundromat+official"}
+];
+let selected="all";
+function render(){
+ const q=document.getElementById("search").value.toLowerCase();
+ const filtered=list.filter(m=>
+  (selected==="all"||m.genre===selected)&&m.title.toLowerCase().includes(q)
+ );
+ document.getElementById("movies").innerHTML=filtered.map(m=>`
+ <article class="movie">
+ <img src="${m.poster}" alt="${m.title} poster" loading="lazy">
+ <div class="info">
+ <h3>${m.title}</h3>
+ <p>${m.genre} • ${m.year}</p>
+ <a href="${m.trailer}" target="_blank" rel="noopener">Trailer দেখুন</a>
+ </div></article>`).join("")||"<p>কোনো মুভি পাওয়া যায়নি।</p>";
+}
+function filterMovies(){render()}
+function category(c){selected=c;render()}
+render();
+</script>
+</body>
+</html>
